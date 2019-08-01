@@ -6,9 +6,7 @@ Close unused blank tabs Plus - A Firefox extension to close blank tabs that are 
 
 This is a fork of "Close unused blank tabs" created by Dustin Luck.
 
-I have decided to make a small changes, since the original web extension has problems opening multiple links at once.
-
-Author of the original web exension is not reacheable.
+I have decided to make a small changes, since the original web extension have problems opening multiple links at once and author of the original web exension is not reacheable.
 
 All credits goes to Dustin Luck.
 
