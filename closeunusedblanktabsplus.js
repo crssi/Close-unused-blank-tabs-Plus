@@ -18,7 +18,6 @@ Contact the author at http://www.dustinluck.com/contact
 
 const stateComplete = 'complete';
 const blankTabTitles = ['New Tab', 'Cliqz Tab'];
-// const blankTabUrls = ['about:blank', 'about:home', 'about:newtab', 'about:privatebrowsing'];
 
 function handleCreated(sourceTab) {
   chrome.tabs.query({windowId: sourceTab.windowId}, function(tabs) {
@@ -26,7 +25,6 @@ function handleCreated(sourceTab) {
       if (! tab.active
         && tab.id !== sourceTab.id
         && tab.status === stateComplete
-        // && blankTabUrls.includes(tab.url)
         && blankTabTitles.includes(tab.title)) {
           chrome.tabs.remove(tab.id);
         }
@@ -34,4 +32,4 @@ function handleCreated(sourceTab) {
   });
 }
 
-chrome.tabs.onCreated.addListener(handleCreated);
+chrome.tabs.onActivated.addListener(handleCreated);
