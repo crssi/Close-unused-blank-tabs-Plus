@@ -1,5 +1,5 @@
-Close Unused Blank Tabs
-=======================
+Close unused blank tabs Plus
+============================
 Every time a new tab is created, all blank tabs will be closed (except the active tab)
 
 Close unused blank tabs Plus - A Firefox extension to close blank tabs that are not used
