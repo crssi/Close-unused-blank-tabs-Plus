@@ -1,9 +1,10 @@
 /*
 Close unused blank tabs Plus - A Firefox extension to close blank tabs that are not used
 
-This is a fork of "Close unused blank tabs" created by Dustin Luck.
+This is a fork of "Close unused blank tabs" created by Dustin Luck, due to the author of the original web exension is not reacheable.
 I have decided to make a small changes, since the original web extension has problems opening multiple links at once.
-Author of the original web exension is not reacheable.
+
+Icon from https://www.iconfinder.com/icons/2030/remove_tab_icon
 
 All credits goes to Dustin Luck.
 
@@ -15,23 +16,22 @@ You should have received a copy of the GNU General Public License along with thi
 Contact the author at http://www.dustinluck.com/contact
 */
 
-const stateComplete = 'complete'
-const blankTabTitles = ['New Tab', 'Cliqz Tab']
+const stateComplete = 'complete';
+const blankTabTitles = ['New Tab', 'Cliqz Tab'];
+// const blankTabUrls = ['about:blank', 'about:home', 'about:newtab', 'about:privatebrowsing'];
 
-function handleCreated(sourceTab)
-{
-    chrome.tabs.query({windowId: sourceTab.windowId}, function(tabs)
-    {
-        for (var tab of tabs) {
-            if (! tab.active
-                && tab.id !== sourceTab.id
-                && tab.status === stateComplete
-				&& blankTabTitles.includes(tab.title))
-            {
-                chrome.tabs.remove(tab.id);
-            }
+function handleCreated(sourceTab) {
+  chrome.tabs.query({windowId: sourceTab.windowId}, function(tabs) {
+    for (var tab of tabs) {
+      if (! tab.active
+        && tab.id !== sourceTab.id
+        && tab.status === stateComplete
+        // && blankTabUrls.includes(tab.url)
+        && blankTabTitles.includes(tab.title)) {
+          chrome.tabs.remove(tab.id);
         }
-    });
+    }
+  });
 }
 
 chrome.tabs.onCreated.addListener(handleCreated);
