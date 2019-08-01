@@ -28,5 +28,9 @@ Contact the author at http://www.dustinluck.com/contact
 
 Version history
 ---------------
-###0.0.1 (2019-07-31)
+### 0.0.2 (2019-08-01)
+* Add icon
+* Code beautify
+
+### 0.0.1 (2019-07-31)
 * Initial Release
