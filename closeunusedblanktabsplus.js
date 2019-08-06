@@ -17,7 +17,6 @@ Icon got from https://www.iconfinder.com/icons/2030/remove_tab_icon (issued unde
 */
 
 const stateComplete = 'complete';
-const blankTabTitles = ['New Tab', 'Cliqz Tab'];
 const blankTabUrls = ['about:blank', 'about:home', 'about:newtab', 'about:privatebrowsing'];
 
 function handleActivated(sourceTab) {
@@ -28,7 +27,7 @@ function handleActivated(sourceTab) {
           && tab.id !== sourceTab.id
           && tab.status === stateComplete
           && blankTabUrls.includes(tab.url)
-          && blankTabTitles.includes(tab.title)) {
+          && tab.title.indexOf(" ") !== -1) {
             chrome.tabs.remove(tab.id);
           }
       }
