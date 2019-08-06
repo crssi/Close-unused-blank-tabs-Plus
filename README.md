@@ -1,5 +1,8 @@
 Version history
 ---------------
+### 0.0.5 (2019-08-06)
+* Fixed "New Tab" not detected if non-english language 
+
 ### 0.0.4 (2019-08-05)
 * Fixed rare situation where tab is closed unexpected
 
