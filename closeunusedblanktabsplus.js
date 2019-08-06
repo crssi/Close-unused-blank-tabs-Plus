@@ -19,7 +19,7 @@ Icon got from https://www.iconfinder.com/icons/2030/remove_tab_icon (issued unde
 const stateComplete = 'complete';
 const blankTabUrls = ['about:blank', 'about:home', 'about:newtab', 'about:privatebrowsing'];
 
-function handleActivated(sourceTab) {
+function handleCreated(sourceTab) {
   chrome.tabs.query({windowId: sourceTab.windowId},
     function(tabs) {
       for (var tab of tabs) {
@@ -27,11 +27,11 @@ function handleActivated(sourceTab) {
           && tab.id !== sourceTab.id
           && tab.status === stateComplete
           && blankTabUrls.includes(tab.url)
-          && tab.title.indexOf(" ") !== -1) {
+          && tab.title.indexOf(' ') !== -1) {
             chrome.tabs.remove(tab.id);
           }
       }
     });
 }
 
-chrome.tabs.onActivated.addListener(handleActivated);
+chrome.tabs.onCreated.addListener(handleCreated);

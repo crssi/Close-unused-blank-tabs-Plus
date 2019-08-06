@@ -5,7 +5,7 @@
     "manifest_version": 2,
     "name": "Close unused blank tabs Plus",
     "author": "crssi",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "description": "Closes unused blank tabs",
     "permissions": [
         "tabs"
