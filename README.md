@@ -1,7 +1,19 @@
 Version history
 ---------------
+### 0.0.6 (2019-08-07)
+#### Added support for the folowing languages (now all languages should be covered):
+* Burmese
+* Chinese (China)
+* Chinese (Taiwan)
+* Japanese
+* Khmer
+* Lao
+* Thai
+
+#### Change listener from onActivated to on Created
+
 ### 0.0.5 (2019-08-06)
-* Fixed "New Tab" not detected if non-english language 
+* Fixed "New Tab" not detected if non-english language
 
 ### 0.0.4 (2019-08-05)
 * Fixed rare situation where tab is closed unexpected

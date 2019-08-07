@@ -18,6 +18,7 @@ Icon got from https://www.iconfinder.com/icons/2030/remove_tab_icon (issued unde
 
 const stateComplete = 'complete';
 const blankTabUrls = ['about:blank', 'about:home', 'about:newtab', 'about:privatebrowsing'];
+const blankTabIntTitles = ['တပ်ဗ်အသစ်ဖွင့်', '新标签页', '新分頁', '新しいタブ', 'ផ្ទាំង​ថ្មី', 'ແທັບໃຫມ່', 'แท็บใหม่'];
 
 function handleCreated(sourceTab) {
   chrome.tabs.query({windowId: sourceTab.windowId},
@@ -27,7 +28,7 @@ function handleCreated(sourceTab) {
           && tab.id !== sourceTab.id
           && tab.status === stateComplete
           && blankTabUrls.includes(tab.url)
-          && tab.title.indexOf(' ') !== -1) {
+          && (tab.title.indexOf(' ') !== -1) || blankTabIntTitles.includes(tab.title)) {
             chrome.tabs.remove(tab.id);
           }
       }
