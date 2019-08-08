@@ -28,7 +28,6 @@ function handleCreated(sourceTab) {
           tab.status === 'loading' &&
           tab.url.startsWith('moz-extension://') &&
           (tab.title.indexOf(' ') !== -1 || blankTabTitles.includes(tab.title))) {
-            // console.log("Active [URL] " + tab.url + " [TITLE] " + tab.title + " [STATUS] " + tab.status + " [ID]" + tab.id + " [SourceID]" + sourceTab.id);
             blankTab = tab.url;
         }
       }
@@ -37,13 +36,11 @@ function handleCreated(sourceTab) {
   chrome.tabs.query({active: false, windowId: sourceTab.windowId},
     function(tabs) {
       for (var tab of tabs) {
-        // console.log("        [URL] " + tab.url + " [TITLE] " + tab.title + " [STATUS] " + tab.status + " [ID]" + tab.id + " [SourceID]" + sourceTab.id);
         if (tab.id !== sourceTab.id &&
           tab.status === 'complete' &&
           (blankTabUrls.includes(tab.url) || tab.url === blankTab) &&
           (tab.title.indexOf(' ') !== -1 || blankTabTitles.includes(tab.title))) {
             chrome.tabs.remove(tab.id);
-            // console.log("Remove [URL] " + tab.url + " [TITLE] " + tab.title + " [STATUS] " + tab.status + " [ID]" + tab.id + " [SourceID]" + sourceTab.id);
         }
       }
   });
