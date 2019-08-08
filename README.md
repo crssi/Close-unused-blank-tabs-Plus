@@ -1,8 +1,8 @@
 Version history
 ---------------
-### 0.0.6 (2019-08-07)
+### 0.0.6 (2019-08-08)
 * Added support for custom new tab page webextensions
-* Added support for the following languages (now all languages should be covered): Burmese, Chinese, Japanese, Khmer, Lao, Thai
+* Added support for the missing languages: Burmese, Chinese, Japanese, Khmer, Lao, Thai
 * Change listener from onActivated to on Created
 
 ### 0.0.5 (2019-08-06)
