@@ -1,16 +1,16 @@
 {
-    "icons": {
-      "64": "icons/cubtp.png"
-    },
-    "manifest_version": 2,
-    "name": "Close unused blank tabs Plus",
-    "author": "crssi",
-    "version": "0.0.6",
-    "description": "Closes unused blank tabs",
-    "permissions": [
-        "tabs"
-    ],
-    "background": {
-        "scripts": ["closeunusedblanktabsplus.js"]
-    }
+  "icons": {
+    "64": "icons/cubtp.png"
+  },
+  "manifest_version": 2,
+  "name": "Close unused blank tabs Plus",
+  "author": "crssi",
+  "version": "0.0.6",
+  "description": "Closes unused blank tabs",
+  "permissions": [
+    "tabs"
+  ],
+  "background": {
+    "scripts": ["closeunusedblanktabsplus.js"]
+  },
 }

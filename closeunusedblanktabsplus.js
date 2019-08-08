@@ -16,23 +16,37 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 Icon got from https://www.iconfinder.com/icons/2030/remove_tab_icon (issued under LGPL).
 */
 
-const stateComplete = 'complete';
 const blankTabUrls = ['about:blank', 'about:home', 'about:newtab', 'about:privatebrowsing'];
-const blankTabIntTitles = ['တပ်ဗ်အသစ်ဖွင့်', '新标签页', '新分頁', '新しいタブ', 'ផ្ទាំង​ថ្មី', 'ແທັບໃຫມ່', 'แท็บใหม่'];
+const blankTabTitles = ['တပ်ဗ်အသစ်ဖွင့်', '新标签页', '新分頁', '新しいタブ', 'ផ្ទាំងថ្មី', 'ແທັບໃຫມ່', 'แท็บใหม่'];
+var blankTab = null;
 
 function handleCreated(sourceTab) {
-  chrome.tabs.query({windowId: sourceTab.windowId},
+  chrome.tabs.query({active: true},
     function(tabs) {
       for (var tab of tabs) {
-        if (! tab.active
-          && tab.id !== sourceTab.id
-          && tab.status === stateComplete
-          && blankTabUrls.includes(tab.url)
-          && (tab.title.indexOf(' ') !== -1) || blankTabIntTitles.includes(tab.title)) {
-            chrome.tabs.remove(tab.id);
-          }
+        if (tab.id === sourceTab.id &&
+          tab.status === 'loading' &&
+          tab.url.startsWith('moz-extension://') &&
+          (tab.title.indexOf(' ') !== -1 || blankTabTitles.includes(tab.title))) {
+            // console.log("Active [URL] " + tab.url + " [TITLE] " + tab.title + " [STATUS] " + tab.status + " [ID]" + tab.id + " [SourceID]" + sourceTab.id);
+            blankTab = tab.url;
+        }
       }
-    });
+  });
+
+  chrome.tabs.query({active: false, windowId: sourceTab.windowId},
+    function(tabs) {
+      for (var tab of tabs) {
+        // console.log("        [URL] " + tab.url + " [TITLE] " + tab.title + " [STATUS] " + tab.status + " [ID]" + tab.id + " [SourceID]" + sourceTab.id);
+        if (tab.id !== sourceTab.id &&
+          tab.status === 'complete' &&
+          (blankTabUrls.includes(tab.url) || tab.url === blankTab) &&
+          (tab.title.indexOf(' ') !== -1 || blankTabTitles.includes(tab.title))) {
+            chrome.tabs.remove(tab.id);
+            // console.log("Remove [URL] " + tab.url + " [TITLE] " + tab.title + " [STATUS] " + tab.status + " [ID]" + tab.id + " [SourceID]" + sourceTab.id);
+        }
+      }
+  });
 }
 
 chrome.tabs.onCreated.addListener(handleCreated);
