@@ -21,11 +21,10 @@ const blankTabTitles = ['တပ်ဗ်အသစ်ဖွင့်', '新标签
 var blankTab = null;
 
 function handleCreated(sourceTab) {
-  chrome.tabs.query({active: true},
+  browser.tabs.query({active: true, status: 'loading'},
     function(tabs) {
       for (var tab of tabs) {
         if (tab.id === sourceTab.id &&
-          tab.status === 'loading' &&
           tab.url.startsWith('moz-extension://') &&
           (tab.title.indexOf(' ') !== -1 || blankTabTitles.includes(tab.title))) {
             blankTab = tab.url;
@@ -33,14 +32,13 @@ function handleCreated(sourceTab) {
       }
   });
 
-  chrome.tabs.query({active: false, windowId: sourceTab.windowId},
+  browser.tabs.query({active: false, status: 'complete', windowId: sourceTab.windowId},
     function(tabs) {
       for (var tab of tabs) {
         if (tab.id !== sourceTab.id &&
-          tab.status === 'complete' &&
           (blankTabUrls.includes(tab.url) || tab.url === blankTab) &&
           (tab.title.indexOf(' ') !== -1 || blankTabTitles.includes(tab.title))) {
-            chrome.tabs.remove(tab.id);
+            browser.tabs.remove(tab.id);
         }
       }
   });
