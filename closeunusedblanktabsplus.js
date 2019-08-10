@@ -1,8 +1,7 @@
 /*
 Close unused blank tabs Plus - A Firefox extension to close blank tabs that are not used
 
-This is a fork of "Close unused blank tabs" created by Dustin Luck, due to the author of the original web exension is not reacheable.
-I have decided to make a small changes, since the original web extension have problems opening multiple links at once.
+This extension was inspired by "Close unused blank tabs" created by Dustin Luck.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -16,22 +15,45 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 Icon got from https://www.iconfinder.com/icons/2030/remove_tab_icon (issued under LGPL).
 */
 
-const stateComplete = 'complete';
 const blankTabUrls = ['about:blank', 'about:home', 'about:newtab', 'about:privatebrowsing'];
+const blankTabTitles = ['တပ်ဗ်အသစ်ဖွင့်', '新标签页', '新分頁', '新しいタブ', 'ផ្ទាំងថ្មី', 'ແທັບໃຫມ່', 'แท็บใหม่'];
 
-function handleActivated(sourceTab) {
-  chrome.tabs.query({windowId: sourceTab.windowId},
-    function(tabs) {
-      for (var tab of tabs) {
-        if (! tab.active
-          && tab.id !== sourceTab.id
-          && tab.status === stateComplete
-          && blankTabUrls.includes(tab.url)
-          && tab.title.indexOf(" ") !== -1) {
-            chrome.tabs.remove(tab.id);
-          }
-      }
+function onTabCreated() {
+    chrome.tabs.query({},
+      function(tabs) {
+        for (let tab of tabs) {
+
+          if (tab.active &&
+            tab.status === 'loading' &&
+            tab.url.startsWith('moz-extension://') &&
+            ((tab.title.split(' ').length - 1) === 1 || blankTabTitles.includes(tab.title))) {
+              var blankTab = tab.url;
+              break;
+            }
+
+          if (tab.status === 'complete' &&
+            tab.url.startsWith('moz-extension://') &&
+            tab.url.endsWith('/modules/freshtab/home.html') &&
+            tab.title.startsWith('Cliqz ')) {
+              var blankTab = tab.url;
+              break;
+            }
+        }
+
+        var tabsToRemove = new Array();
+        for (let tab of tabs) {
+          if ((blankTabUrls.includes(tab.url) || tab.url === blankTab) &&
+            ((tab.title.split(' ').length - 1) === 1 || blankTabTitles.includes(tab.title))) {
+              tabsToRemove.push(tab.id);
+            }
+        }
+
+        tabsToRemove.pop();
+        for (let tabToRemove of tabsToRemove) {
+          chrome.tabs.remove(tabToRemove);
+        }
     });
 }
 
-chrome.tabs.onActivated.addListener(handleActivated);
+chrome.tabs.onCreated.addListener(onTabCreated);
+chrome.runtime.onInstalled.addListener(onTabCreated);
