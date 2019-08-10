@@ -18,7 +18,7 @@ Icon got from https://www.iconfinder.com/icons/2030/remove_tab_icon (issued unde
 const blankTabUrls = ['about:blank', 'about:home', 'about:newtab', 'about:privatebrowsing'];
 const blankTabTitles = ['တပ်ဗ်အသစ်ဖွင့်', '新标签页', '新分頁', '新しいタブ', 'ផ្ទាំងថ្មី', 'ແທັບໃຫມ່', 'แท็บใหม่'];
 
-function handleCreated() {
+function onTabCreated() {
     chrome.tabs.query({},
       function(tabs) {
         for (let tab of tabs) {
@@ -27,7 +27,7 @@ function handleCreated() {
             tab.status === 'loading' &&
             tab.url.startsWith('moz-extension://') &&
             ((tab.title.split(' ').length - 1) === 1 || blankTabTitles.includes(tab.title))) {
-              var newTab = tab.url;
+              var blankTab = tab.url;
               break;
             }
 
@@ -35,14 +35,14 @@ function handleCreated() {
             tab.url.startsWith('moz-extension://') &&
             tab.url.endsWith('/modules/freshtab/home.html') &&
             tab.title.startsWith('Cliqz ')) {
-              var newTab = tab.url;
+              var blankTab = tab.url;
               break;
             }
         }
 
         var tabsToRemove = new Array();
         for (let tab of tabs) {
-          if ((blankTabUrls.includes(tab.url) || tab.url === newTab) &&
+          if ((blankTabUrls.includes(tab.url) || tab.url === blankTab) &&
             ((tab.title.split(' ').length - 1) === 1 || blankTabTitles.includes(tab.title))) {
               tabsToRemove.push(tab.id);
             }
@@ -55,5 +55,5 @@ function handleCreated() {
     });
 }
 
-chrome.tabs.onCreated.addListener(handleCreated);
-chrome.runtime.onInstalled.addListener(handleCreated);
+chrome.tabs.onCreated.addListener(onTabCreated);
+chrome.runtime.onInstalled.addListener(onTabCreated);

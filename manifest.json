@@ -1,6 +1,6 @@
 {
   "icons": {
-    "64": "icons/cubtp.png"
+    "64": "icons/icon.svg"
   },
   "manifest_version": 2,
   "name": "Close unused blank tabs Plus",
