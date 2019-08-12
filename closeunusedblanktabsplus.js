@@ -16,25 +16,15 @@ Icon got from https://www.iconfinder.com/icons/2030/remove_tab_icon (issued unde
 */
 
 const blankTabUrls = ['about:blank', 'about:home', 'about:newtab', 'about:privatebrowsing'];
-const blankTabTitles = ['တပ်ဗ်အသစ်ဖွင့်', '新标签页', '新分頁', '新しいタブ', 'ផ្ទាំងថ្មី', 'ແທັບໃຫມ່', 'แท็บใหม่'];
+const blankTabTitles = ["New Tab","Nov zavihek","新标签页","新分頁","Nueva pestaña","Nueva Pestanya","नया टैब","لسان جديد","নতুন ট্যাব","Nova aba","Novo separador","Новая вкладка","新しいタブ","ਨਵੀਂ ਟੈਬ","Nouvel onglet","Tab Baru","Neuer Tab","Nuova scheda","Nowa karta","Cliqz Tab" ,"Bagong Tab","Cluaisín Nua","Dirica matidi manyen","Filă nouă","Fitxa berria","Iccer amaynut","Ivinell nevez","Jauna cilne","K'ak'a' ruwi'","Llingüeta nueva","Nauja kortelė","Neuvo feuggio","Nieuw tabblad","Nij ljepblêd","Nov tab","Nová karta","Nova kartica","Nova langeto","Nova lapela","Nove scheda","Novi tab","Nový panel","Nowy rajtark","Nowy rejtark","Ny fane","Ny flik","Nýr flipi","Nyt faneblad","Onglet novèl","Pestanya nova","Rakïj ñanj nakàa","Skedë e Re","Tab Barô","Tab Newydd","Taba ùr","Tabbere hesere","Tendayke Pyahu","Thẻ mới","Új lap","Uus kaart","Uusi välilehti","Yangi ichki oyna","Yañı İlmek","Yeni Sekme","Yeni Vərəq","Νέα καρτέλα","Жаңа бет","Нов раздел","Нова вкладка","Новая картка","Нови језичак","Ново јазиче","ახალი ჩანართი","Նոր ներդիր","לשונית חדשה","زبانه جدید","نیا ٹیب","नयाँ ट्याब","नव टैब","नवीन टॅब","নতুন টেব","નવી ટૅબ","புதிய கீற்று","కొత్త ట్యాబు","ಹೊಸ ಹಾಳೆ","പുതിയ ടാബ്","නව ටැබය","แท็บใหม่","ແທັບໃຫມ່","တပ်ဗ်အသစ်ဖွင့်","ផ្ទាំង​ថ្មី","새 탭"];
 
 function onTabCreated() {
     chrome.tabs.query({},
       function(tabs) {
         for (let tab of tabs) {
 
-          if (tab.active &&
-            tab.status === 'loading' &&
-            tab.url.startsWith('moz-extension://') &&
-            ((tab.title.split(' ').length - 1) === 1 || blankTabTitles.includes(tab.title))) {
-              var blankTab = tab.url;
-              break;
-            }
-
-          if (tab.status === 'complete' &&
-            tab.url.startsWith('moz-extension://') &&
-            tab.url.endsWith('/modules/freshtab/home.html') &&
-            tab.title.startsWith('Cliqz ')) {
+          if (tab.url.startsWith('moz-extension://') &&
+            blankTabTitles.includes(tab.title)) {
               var blankTab = tab.url;
               break;
             }
@@ -43,7 +33,7 @@ function onTabCreated() {
         var tabsToRemove = new Array();
         for (let tab of tabs) {
           if ((blankTabUrls.includes(tab.url) || tab.url === blankTab) &&
-            ((tab.title.split(' ').length - 1) === 1 || blankTabTitles.includes(tab.title))) {
+            blankTabTitles.includes(tab.title)) {
               tabsToRemove.push(tab.id);
             }
         }
@@ -52,6 +42,7 @@ function onTabCreated() {
         for (let tabToRemove of tabsToRemove) {
           chrome.tabs.remove(tabToRemove);
         }
+
     });
 }
 

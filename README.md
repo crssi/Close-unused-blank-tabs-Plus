@@ -1,5 +1,9 @@
 Version history
 ---------------
+### 0.0.7 (2019-08-12)
+* Fixed "reopen closed tabs does not work"
+* Logic/code optimization
+
 ### 0.0.6 (2019-08-10)
 * Complete code rewrite
 * Added support for custom new tab page webextensions
