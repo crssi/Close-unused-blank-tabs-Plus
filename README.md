@@ -1,5 +1,8 @@
 Version history
 ---------------
+### 0.0.8 (2019-08-14)
+* Fixed "View Page Source" action broken
+
 ### 0.0.7 (2019-08-12)
 * Fixed "reopen closed tabs does not work"
 * Logic/code optimization
