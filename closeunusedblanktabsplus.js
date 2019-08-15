@@ -23,36 +23,36 @@ function sleep(ms) {
 }
 
 async function onTabCreated() {
-    await sleep(100);
-    browser.tabs.query({},
-      function(tabs) {
-        for (let tab of tabs) {
+  await sleep(100);
+  browser.tabs.query({},
+    function(tabs) {
+      for (let tab of tabs) {
 
-          if (tab.url.startsWith('moz-extension://') &&
-            blankTabTitles.includes(tab.title)) {
-              var blankTab = tab.url;
-              break;
-            }
-        }
-        // console.log("[NEWTAB URL]: " + blankTab);
-
-        var tabsToRemove = new Array();
-        for (let tab of tabs) {
-          if ((blankTabUrls.includes(tab.url) || tab.url === blankTab) &&
-            blankTabTitles.includes(tab.title)) {
-              tabsToRemove.push(tab.id);
+        if (tab.url.startsWith('moz-extension://') &&
+          blankTabTitles.includes(tab.title)) {
+            var blankTab = tab.url;
+            break;
           }
-          // console.log("        [ID]: " + tab.id + " [URL]: " + tab.url + " [TITLE]: " + tab.title + " [STATUS]: " + tab.status + " [ACTIVE]: " + tab.active);
-        }
+      }
+      // console.log("[NEWTAB URL]: " + blankTab);
 
-        tabsToRemove.sort((a, b) => a - b);
-        tabsToRemove.pop();
-        for (let tabToRemove of tabsToRemove) {
-          browser.tabs.remove(tabToRemove);
-          // console.log("[REMOVE  ID]: " + tabToRemove);
+      var tabsToRemove = new Array();
+      for (let tab of tabs) {
+        if ((blankTabUrls.includes(tab.url) || tab.url === blankTab) &&
+          blankTabTitles.includes(tab.title)) {
+            tabsToRemove.push(tab.id);
         }
+        // console.log("        [ID]: " + tab.id + " [URL]: " + tab.url + " [TITLE]: " + tab.title + " [STATUS]: " + tab.status + " [ACTIVE]: " + tab.active);
+      }
 
-    });
+      tabsToRemove.sort((a, b) => a - b);
+      tabsToRemove.pop();
+      for (let tabToRemove of tabsToRemove) {
+        browser.tabs.remove(tabToRemove);
+        // console.log("[REMOVE  ID]: " + tabToRemove);
+      }
+
+  });
 }
 
 browser.tabs.onCreated.addListener(onTabCreated);
