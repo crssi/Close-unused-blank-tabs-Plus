@@ -1,5 +1,8 @@
 Version history
 ---------------
+### 0.0.9 (2019-08-14)
+* Code improvements
+
 ### 0.0.8 (2019-08-14)
 * Fixed "View Page Source" action broken
 
