@@ -28,7 +28,7 @@ async function onTabCreated() {
     function(tabs) {
       for (let tab of tabs) {
 
-        if (tab.url.startsWith('moz-extension://') &&
+        if ((blankTabUrls.includes(tab.url) || tab.url.startsWith('moz-extension://')) &&
           blankTabTitles.includes(tab.title)) {
             var blankTab = tab.url;
             break;
@@ -42,7 +42,7 @@ async function onTabCreated() {
           blankTabTitles.includes(tab.title)) {
             tabsToRemove.push(tab.id);
         }
-        // console.log("        [ID]: " + tab.id + " [URL]: " + tab.url + " [TITLE]: " + tab.title + " [STATUS]: " + tab.status + " [ACTIVE]: " + tab.active);
+        // console.log("        [ID]: " + tab.id + " [URL]: " + tab.url + " [T]: " + tab.title + " [S]: " + tab.status + " [A]: " + tab.active);
       }
 
       tabsToRemove.sort((a, b) => a - b);
