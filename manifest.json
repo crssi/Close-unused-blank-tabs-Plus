@@ -1,11 +1,11 @@
 {
   "icons": {
-    "64": "icons/cubtp.png"
+    "64": "icon.png"
   },
   "manifest_version": 2,
   "name": "Close unused blank tabs Plus",
   "author": "crssi",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Closes unused blank tabs",
   "permissions": [
     "tabs"
