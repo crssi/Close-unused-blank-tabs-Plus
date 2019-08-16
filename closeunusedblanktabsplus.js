@@ -36,7 +36,7 @@ async function onTabCreated() {
       }
       // console.log("[NEWTAB URL]: " + blankTab);
 
-      var tabsToRemove = new Array();
+      let tabsToRemove = new Array();
       for (let tab of tabs) {
         if ((blankTabUrls.includes(tab.url) || tab.url === blankTab) &&
           blankTabTitles.includes(tab.title)) {
