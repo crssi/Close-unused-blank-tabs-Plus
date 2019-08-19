@@ -47,8 +47,7 @@ function onTabCreated() {
         // console.log("[REMOVE  ID]: " + tabToRemove);
       }
 
-      var sessions = await browser.sessions.getRecentlyClosed({});
-      // console.log(JSON.stringify(sessions));
+      let sessions = await browser.sessions.getRecentlyClosed({});
       for (let session of sessions) {
         if (session.tab.url === blankTabUrl || blankTabUrls.includes(session.tab.url)) {
             browser.sessions.forgetClosedTab(session.tab.windowId, session.tab.sessionId);
@@ -58,5 +57,5 @@ function onTabCreated() {
   });
 }
 
+
 browser.tabs.onCreated.addListener(onTabCreated);
-browser.runtime.onInstalled.addListener(onTabCreated);
