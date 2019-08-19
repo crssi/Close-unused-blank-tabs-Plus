@@ -18,38 +18,41 @@ Icon got from https://www.iconfinder.com/icons/2030/remove_tab_icon (issued unde
 const blankTabUrls = ['about:blank', 'about:home', 'about:newtab', 'about:privatebrowsing'];
 const blankTabTitles = ["New Tab","Nov zavihek","新标签页","新分頁","Nueva pestaña","Nueva Pestanya","नया टैब","لسان جديد","নতুন ট্যাব","Nova aba","Novo separador","Новая вкладка","新しいタブ","ਨਵੀਂ ਟੈਬ","Nouvel onglet","Tab Baru","Neuer Tab","Nuova scheda","Nowa karta","Cliqz Tab" ,"Bagong Tab","Cluaisín Nua","Dirica matidi manyen","Filă nouă","Fitxa berria","Iccer amaynut","Ivinell nevez","Jauna cilne","K'ak'a' ruwi'","Llingüeta nueva","Nauja kortelė","Neuvo feuggio","Nieuw tabblad","Nij ljepblêd","Nov tab","Nová karta","Nova kartica","Nova langeto","Nova lapela","Nove scheda","Novi tab","Nový panel","Nowy rajtark","Nowy rejtark","Ny fane","Ny flik","Nýr flipi","Nyt faneblad","Onglet novèl","Pestanya nova","Rakïj ñanj nakàa","Skedë e Re","Tab Barô","Tab Newydd","Taba ùr","Tabbere hesere","Tendayke Pyahu","Thẻ mới","Új lap","Uus kaart","Uusi välilehti","Yangi ichki oyna","Yañı İlmek","Yeni Sekme","Yeni Vərəq","Νέα καρτέλα","Жаңа бет","Нов раздел","Нова вкладка","Новая картка","Нови језичак","Ново јазиче","ახალი ჩანართი","Նոր ներդիր","לשונית חדשה","زبانه جدید","نیا ٹیب","नयाँ ट्याब","नव टैब","नवीन टॅब","নতুন টেব","નવી ટૅબ","புதிய கீற்று","కొత్త ట్యాబు","ಹೊಸ ಹಾಳೆ","പുതിയ ടാബ്","නව ටැබය","แท็บใหม่","ແທັບໃຫມ່","တပ်ဗ်အသစ်ဖွင့်","ផ្ទាំង​ថ្មី","새 탭"];
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
-async function onTabCreated() {
-  await sleep(100);
+function onTabCreated() {
   browser.tabs.query({},
-    function(tabs) {
-      for (let tab of tabs) {
+    async function(tabs) {
 
-        if ((blankTabUrls.includes(tab.url) || tab.url.startsWith('moz-extension://')) &&
+      for (let tab of tabs) {
+        if ((tab.url.startsWith('moz-extension://') || blankTabUrls.includes(tab.url)) &&
           blankTabTitles.includes(tab.title)) {
-            var blankTab = tab.url;
+            var blankTabUrl = tab.url;
             break;
           }
       }
-      // console.log("[NEWTAB URL]: " + blankTab);
+      // console.log("[NEWTAB URL]: " + blankTabUrl);
 
       let tabsToRemove = new Array();
       for (let tab of tabs) {
-        if ((blankTabUrls.includes(tab.url) || tab.url === blankTab) &&
+        if (! tab.active &&
+          (tab.url === blankTabUrl || blankTabUrls.includes(tab.url)) &&
           blankTabTitles.includes(tab.title)) {
             tabsToRemove.push(tab.id);
         }
         // console.log("        [ID]: " + tab.id + " [URL]: " + tab.url + " [T]: " + tab.title + " [S]: " + tab.status + " [A]: " + tab.active);
       }
 
-      tabsToRemove.sort((a, b) => a - b);
-      tabsToRemove.pop();
       for (let tabToRemove of tabsToRemove) {
-        browser.tabs.remove(tabToRemove);
+        await browser.tabs.remove(tabToRemove);
         // console.log("[REMOVE  ID]: " + tabToRemove);
+      }
+
+      var sessions = await browser.sessions.getRecentlyClosed({});
+      // console.log(JSON.stringify(sessions));
+      for (let session of sessions) {
+        if (session.tab.url === blankTabUrl || blankTabUrls.includes(session.tab.url)) {
+            browser.sessions.forgetClosedTab(session.tab.windowId, session.tab.sessionId);
+        }
       }
 
   });

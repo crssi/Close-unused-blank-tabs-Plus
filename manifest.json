@@ -5,10 +5,11 @@
   "manifest_version": 2,
   "name": "Close unused blank tabs Plus",
   "author": "crssi",
-  "version": "0.0.9",
+  "version": "1.0.0",
   "description": "Closes unused blank tabs",
   "permissions": [
-    "tabs"
+    "tabs",
+    "sessions"
   ],
   "background": {
     "scripts": ["closeunusedblanktabsplus.js"]
