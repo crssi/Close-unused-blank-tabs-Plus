@@ -12,7 +12,6 @@ This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-Icon got from https://www.iconfinder.com/icons/2030/remove_tab_icon (issued under LGPL).
 */
 
 const blankTabUrls = ['about:blank', 'about:home', 'about:newtab', 'about:privatebrowsing'];
