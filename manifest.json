@@ -1,11 +1,16 @@
 {
   "icons": {
-    "64": "icon.svg"
+    "24": "icons/icon.svg",
+    "32": "icons/icon.svg",
+    "48": "icons/icon.svg",
+    "64": "icons/icon.svg",
+    "96": "icons/icon.svg",
+    "128": "icons/icon.svg"
   },
   "manifest_version": 2,
   "name": "Close unused blank tabs Plus",
   "author": "crssi",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Closes unused blank tabs",
   "permissions": [
     "tabs",
