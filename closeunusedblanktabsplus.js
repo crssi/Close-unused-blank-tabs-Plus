@@ -22,41 +22,40 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+
 async function onTabCreated() {
   await sleep(100);
   browser.tabs.query({},
-    async function(tabs) {
+  async function(tabs) {
 
-      for (let tab of tabs) {
-        if ((tab.url.startsWith('moz-extension://') || blankTabUrls.includes(tab.url)) &&
-          blankTabTitles.includes(tab.title)) {
-            var blankTabUrl = tab.url;
-            break;
-          }
+    for (let tab of tabs) {
+      if ((tab.url.startsWith('moz-extension://') || blankTabUrls.includes(tab.url))
+       && blankTabTitles.includes(tab.title)) {
+        var blankTabUrl = tab.url;
+        break;
       }
-      // console.log("[NEWTAB URL]: " + blankTabUrl);
+    }
 
-      let tabsToRemove = new Array();
-      for (let tab of tabs) {
-        if (! tab.active && tab.status === 'complete' &&
-          (tab.url === blankTabUrl || blankTabUrls.includes(tab.url)) &&
-          blankTabTitles.includes(tab.title)) {
-            tabsToRemove.push(tab.id);
-        }
-        // console.log("        [ID]: " + tab.id + " [URL]: " + tab.url + " [T]: " + tab.title + " [S]: " + tab.status + " [A]: " + tab.active);
+    let tabsToRemove = new Array();
+    for (let tab of tabs) {
+      if (! tab.active
+        && tab.status === 'complete'
+        && (tab.url === blankTabUrl || blankTabUrls.includes(tab.url))
+        && blankTabTitles.includes(tab.title)) {
+          tabsToRemove.push(tab.id);
       }
+    }
 
-      for (let tabToRemove of tabsToRemove) {
-        await browser.tabs.remove(tabToRemove);
-        // console.log("[REMOVE  ID]: " + tabToRemove);
-      }
+    for (let tabToRemove of tabsToRemove) {
+      await browser.tabs.remove(tabToRemove);
+    }
 
-      let sessions = await browser.sessions.getRecentlyClosed({});
-      for (let session of sessions) {
-        if (session.tab.url === blankTabUrl || blankTabUrls.includes(session.tab.url)) {
-            browser.sessions.forgetClosedTab(session.tab.windowId, session.tab.sessionId);
-        }
+    let sessions = await browser.sessions.getRecentlyClosed({});
+    for (let session of sessions) {
+      if (session.tab.url === blankTabUrl || blankTabUrls.includes(session.tab.url)) {
+        browser.sessions.forgetClosedTab(session.tab.windowId, session.tab.sessionId);
       }
+    }
 
   });
 }

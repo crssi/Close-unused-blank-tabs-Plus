@@ -1,5 +1,10 @@
 Version history
 ---------------
+### 1.0.0 (2019-08-23)
+* Fixed problems with undo closed tabs (that is the reason for needing session permission)
+* replaced icon with svg
+* Code improvements
+
 ### 0.0.9 (2019-08-16)
 * Code improvements
 
