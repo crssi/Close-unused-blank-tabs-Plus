@@ -24,7 +24,7 @@ function sleep(ms) {
 
 
 async function onTabCreated() {
-  await sleep(100);
+  await sleep(300);
   browser.tabs.query({},
   async function(tabs) {
 
@@ -40,7 +40,7 @@ async function onTabCreated() {
     for (let tab of tabs) {
       if (! tab.active
         && tab.status === 'complete'
-		&& (((tab.url === blankTabUrl || blankTabUrls.includes(tab.url)) && blankTabTitles.includes(tab.title)) || typeof tab.isArticle === 'undefined' )) {
+        && (((tab.url === blankTabUrl || blankTabUrls.includes(tab.url)) && blankTabTitles.includes(tab.title)) || typeof tab.isArticle === 'undefined' )) {
           tabsToRemove.push(tab.id);
       }
     }
