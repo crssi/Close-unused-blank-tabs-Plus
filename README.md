@@ -1,8 +1,7 @@
 Version history
 ---------------
-### 1.0.6 (2020-08-07)
-* Closing now some Firefox blank page leftovers
-* Timing fix
+### 1.0.7 (2020-08-07)
+* Closing blank page leftover on Gmail
 
 ### 1.0.3 (2019-08-23)
 * Fixed problems with undo closed tabs (that is the reason for needing session permission)
