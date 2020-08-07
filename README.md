@@ -1,5 +1,8 @@
 Version history
 ---------------
+### 1.0.4 (2020-08-07)
+* Closing now some Firefox blank page leftovers
+
 ### 1.0.3 (2019-08-23)
 * Fixed problems with undo closed tabs (that is the reason for needing session permission)
 * replaced icon with svg
