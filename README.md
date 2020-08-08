@@ -1,5 +1,8 @@
 Version history
 ---------------
+### 1.0.8 (2020-08-08)
+* Closing some more blank leftovers
+
 ### 1.0.7 (2020-08-07)
 * Closing blank page leftover on Gmail
 

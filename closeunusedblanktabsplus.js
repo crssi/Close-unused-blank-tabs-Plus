@@ -24,10 +24,9 @@ function sleep(ms) {
 
 
 async function onTabCreated() {
-  await sleep(100);
 
-  browser.tabs.query({},
-  async function(tabs) {
+  await sleep(120);
+  browser.tabs.query({},  async function(tabs) {
 
     for (let tab of tabs) {
       if ((tab.url.startsWith('moz-extension://') || blankTabUrls.includes(tab.url))
@@ -36,19 +35,13 @@ async function onTabCreated() {
         break;
       }
     }
-    let tabsToRemove = new Array();
-    for (let tab of tabs) {
-      if (! tab.active
-        && tab.status === 'complete'
-        && (((tab.url === blankTabUrl || blankTabUrls.includes(tab.url)) && blankTabTitles.includes(tab.title)) /*|| typeof tab.isArticle === 'undefined'*/ )) {
-          tabsToRemove.push(tab.id);
-      }
-    }
-    // console.log(tabs);
-    // console.log(tabsToRemove);
 
-    for (let tabToRemove of tabsToRemove) {
-      await browser.tabs.remove(tabToRemove);
+    for (let tab of tabs) {
+      if (! tab.active && tab.status === 'complete'
+       && (tab.url === blankTabUrl || blankTabUrls.includes(tab.url))
+       && blankTabTitles.includes(tab.title)) {
+        await browser.tabs.remove(tab.id);
+      }
     }
 
     let sessions = await browser.sessions.getRecentlyClosed({});
@@ -57,8 +50,19 @@ async function onTabCreated() {
         browser.sessions.forgetClosedTab(session.tab.windowId, session.tab.sessionId);
       }
     }
-
   });
+
+
+  await sleep(1200);
+  browser.tabs.query({active: false, status: 'complete'}, async function(tabs) {
+
+    for (let tab of tabs) {
+      if (typeof tab.isArticle === 'undefined') {
+        await browser.tabs.remove(tab.id);
+      }
+    }
+  });
+
 }
 
 
