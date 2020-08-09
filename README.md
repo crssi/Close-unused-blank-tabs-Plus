@@ -1,5 +1,10 @@
 Version history
 ---------------
+### 1.0.9 (2020-08-09)
+* Deal with "active" leftovers
+* Remove "javascript:" leftovers
+* Minor fixes
+
 ### 1.0.8 (2020-08-08)
 * Closing some more blank leftovers
 

@@ -46,18 +46,17 @@ async function onTabCreated() {
 
     let sessions = await browser.sessions.getRecentlyClosed({});
     for (let session of sessions) {
-      if (session.tab.url === blankTabUrl || blankTabUrls.includes(session.tab.url)) {
+      if (session.tab && (session.tab.url === blankTabUrl || blankTabUrls.includes(session.tab.url))) {
         browser.sessions.forgetClosedTab(session.tab.windowId, session.tab.sessionId);
       }
     }
   });
 
-
   await sleep(1200);
-  browser.tabs.query({active: false, status: 'complete'}, async function(tabs) {
-
+  browser.tabs.query({status: 'complete'}, async function(tabs) {
     for (let tab of tabs) {
-      if (typeof tab.isArticle === 'undefined') {
+      if ((typeof tab.isArticle === 'undefined')
+       || (tab.title.startsWith('javascript:') && (blankTabUrls.includes(tab.url)))) {
         await browser.tabs.remove(tab.id);
       }
     }
@@ -67,3 +66,4 @@ async function onTabCreated() {
 
 
 browser.tabs.onCreated.addListener(onTabCreated);
+onTabCreated();
