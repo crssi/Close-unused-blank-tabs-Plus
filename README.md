@@ -1,5 +1,8 @@
 Version history
 ---------------
+### 1.1.0 (2020-08-10)
+* Fix false removing browser internal pages... for example Customize page
+
 ### 1.0.9 (2020-08-09)
 * Deal with "active" leftovers
 * Remove "javascript:" leftovers
