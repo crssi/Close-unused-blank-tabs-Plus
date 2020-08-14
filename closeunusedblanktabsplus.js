@@ -55,8 +55,8 @@ async function onTabCreated() {
   await sleep(1200);
   browser.tabs.query({status: 'complete'}, async function(tabs) {
     for (let tab of tabs) {
-      if ((typeof tab.favIconUrl !== 'undefined') && (tab.favIconUrl.startsWith('chrome://'))) { continue; }
-      if ((typeof tab.isArticle === 'undefined') || (tab.title.startsWith('javascript:') && (blankTabUrls.includes(tab.url)))) {
+      if ((typeof tab.favIconUrl !== 'undefined') && tab.favIconUrl.startsWith('chrome://')) { continue; }
+      if (((typeof tab.isArticle === 'undefined') || tab.title.startsWith('javascript:')) && blankTabUrls.includes(tab.url)) {
         await browser.tabs.remove(tab.id);
       }
     }
