@@ -1,5 +1,8 @@
 Version history
 ---------------
+### 1.1.4 (2020-08-23)
+* Optimization
+
 ### 1.1.3 (2020-08-19)
 * Remove "javascript:" leftovers
 * Remove "mailto:" leftovers
@@ -29,10 +32,6 @@ Version history
 * Added support for Cliqz
 * Added support for the missing languages
 * Changed tab listener from onActivated to onCreated
-
-### 0.0.2 (2019-08-01)
-* Add icon
-* Code beautify
 
 ### 0.0.1 (2019-07-31)
 * Initial Release

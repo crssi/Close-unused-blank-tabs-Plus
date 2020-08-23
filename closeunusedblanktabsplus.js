@@ -1,7 +1,7 @@
 /*
-Close unused blank tabs Plus - A Firefox extension to close blank tabs that are not used
+Close unused blank tabs Plus - A Firefox extension to close orphaned blank tabs
 
-This extension was inspired by "Close unused blank tabs" created by Dustin Luck.
+The extension was inspired by "Close unused blank tabs" created by Dustin Luck.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -11,7 +11,6 @@ the Free Software Foundation, either version 3 of the License, or
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
 */
 
 const blankTabUrls = ['about:blank', 'about:home', 'about:newtab', 'about:privatebrowsing', 'https://mail.google.com/mail/u/0/'];
@@ -37,27 +36,24 @@ async function onTabCreated() {
     }
 
     for (let tab of tabs) {
+	  if (tab.status === 'complete' && (typeof tab.favIconUrl !== 'undefined') && tab.favIconUrl.startsWith('chrome://')) { continue; }
       if (! tab.active && tab.status === 'complete'
        && (tab.url === blankTabUrl || blankTabUrls.includes(tab.url))
        && blankTabTitles.includes(tab.title)) {
+        await browser.tabs.remove(tab.id);
+      }
+      if (tab.status === 'complete'
+       && (tab.title.startsWith('mailto:') || tab.title.startsWith('javascript:'))
+       && blankTabUrls.includes(tab.url)) {
         await browser.tabs.remove(tab.id);
       }
     }
 
     let sessions = await browser.sessions.getRecentlyClosed({});
     for (let session of sessions) {
-      if (session.tab && (session.tab.url === blankTabUrl || blankTabUrls.includes(session.tab.url))) {
+      if (session.tab
+       && (session.tab.url === blankTabUrl || blankTabUrls.includes(session.tab.url))) {
         browser.sessions.forgetClosedTab(session.tab.windowId, session.tab.sessionId);
-      }
-    }
-  });
-
-  await sleep(2400);
-  browser.tabs.query({status: 'complete'}, async function(tabs) {
-    for (let tab of tabs) {
-      if ((typeof tab.favIconUrl !== 'undefined') && (tab.favIconUrl.startsWith('chrome://'))) { continue; }
-      if ((tab.title.startsWith('mailto:') || tab.title.startsWith('javascript:')) && blankTabUrls.includes(tab.url)) {
-        await browser.tabs.remove(tab.id);
       }
     }
   });
